@@ -1,4 +1,4 @@
-# ⚗️ Frontend Web APIs Lab
+# ⚗️ Front-end Web APIs Lab
 
 Collection of interactive TypeScript demos to explore modern Web APIs. Ideal for learning and experimenting with frontend development.
 
