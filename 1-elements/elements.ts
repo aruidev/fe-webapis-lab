@@ -3,6 +3,7 @@ type Atributs = {
 }
 
 type CustomNode = Element | Text;
+type Child = Node | string;
 
 /**
  * Crea un nodo de texto del DOM.
@@ -47,26 +48,26 @@ function crearElement(tag: string, atributs?: Atributs, node?: Node | string) {
 }
 
 /**
- * Mueve un elemento al primer hijo de su padre.
- * @param element - El elemento a mover.
+ * Crea un contenedor HTML con atributos, hijos opcionales y lo añade a un padre opcional.
+ * @param tag - Etiqueta HTML.
+ * @param atributs - Atributos HTML.
+ * @param children - (Opcional) Hijos a añadir dentro del contenedor.
+ * @param parent - (Opcional) Padre al que añadir el contenedor.
+ * @returns El contenedor HTML creado.
  */
-function aPrimerFill(element: Element) {
-    const parent = element.parentElement;
-    if (parent && parent.firstChild) {
-        parent.insertBefore(element, parent.firstChild);
+function crearContainer(tag: string, atributs?: Atributs, children: Child[] = [], parent?: Element) {
+    const el = document.createElement(tag);
+
+    if (atributs) importarAtributs(el, atributs);
+
+    for (const child of children) {
+        el.append(child);
     }
+
+    parent?.appendChild(el);
+    return el;
 }
 
-/**
- * Mueve un elemento al último hijo de su padre.
- * @param element - El elemento a mover.
- */
-function aUltimFill(element: Element) {
-    const parent = element.parentElement;
-    if (parent) {
-        parent.appendChild(element);
-    }
-}
 
 /**
  * Mueve un elemento una posición anterior entre sus hermanos.
@@ -92,6 +93,28 @@ function moureSeguent(element: Element) {
     }
 }
 
+/**
+ * Mueve un elemento al primer hijo de su padre.
+ * @param element - El elemento a mover.
+ */
+function moureToFirstChild(element: Element) {
+    const parent = element.parentElement;
+    if (parent && parent.firstChild) {
+        parent.insertBefore(element, parent.firstChild);
+    }
+}
+
+/**
+ * Mueve un elemento al último hijo de su padre.
+ * @param element - El elemento a mover.
+ */
+function moureToLastChild(element: Element) {
+    const parent = element.parentElement;
+    if (parent) {
+        parent.appendChild(element);
+    }
+}
+
 // Exports
 
 export type { Atributs, CustomNode };
@@ -100,18 +123,18 @@ export {
     crearNode,
     crearElement,
     importarAtributs,
-    aPrimerFill,
-    aUltimFill,
     moureAnterior,
-    moureSeguent
+    moureSeguent,
+    moureToFirstChild as aPrimerFill,
+    moureToLastChild as aUltimFill,
 };
 
 export const Elements = {
     crearNode,
     crearElement,
     importarAtributs,
-    aPrimerFill,
-    aUltimFill,
     moureAnterior,
-    moureSeguent
+    moureSeguent,
+    aPrimerFill: moureToFirstChild,
+    aUltimFill: moureToLastChild,
 } as const;

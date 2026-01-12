@@ -114,10 +114,33 @@ function MoureColumnesSeguent(taula: HTMLTableElement) {
     }
 }
 
+/**
+ * Desplaza todas las filas de la tabla una posición hacia arriba (la primera fila va al final).
+ * @param taula - Tabla objetivo.
+ */
+function moureFilesAnterior(taula: HTMLTableElement) {
+	if (taula.rows.length > 0) {
+		const firstRow = taula.rows[0];
+		taula.removeChild(firstRow);
+		taula.appendChild(firstRow);
+	}
+}
+
+/**
+ * Desplaza todas las filas de la tabla una posición hacia abajo (la última fila va al inicio).
+ * @param taula - Tabla objetivo.
+ */
+function moureFilesSeguent(taula: HTMLTableElement) {
+	if (taula.rows.length > 0) {
+		const lastRow = taula.rows[taula.rows.length - 1];
+		taula.removeChild(lastRow);
+		taula.insertBefore(lastRow, taula.rows[0]);
+	}
+}
+
 // Exports 
 
-export { esborrarFiles, esborrarColumnes, omplirCasella, omplir, crearTaula, MoureColumnesAnterior, MoureColumnesSeguent };
-
+export { esborrarFiles, esborrarColumnes, omplirCasella, omplir, crearTaula, MoureColumnesAnterior, MoureColumnesSeguent, moureFilesAnterior, moureFilesSeguent };
 export const Taules = {
 	esborrarFiles,
 	esborrarColumnes,
@@ -125,5 +148,7 @@ export const Taules = {
 	omplir,
 	crearTaula,
 	MoureColumnesAnterior,
-	MoureColumnesSeguent
+	MoureColumnesSeguent,
+	moureFilesAnterior,
+	moureFilesSeguent,
 } as const;
